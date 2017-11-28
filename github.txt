@@ -1,0 +1,2 @@
+This is the file you need to get from my repository and put into your project.
+Don't change its name.
