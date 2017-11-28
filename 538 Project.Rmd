@@ -1,0 +1,49 @@
+---
+title: "538 Project"
+author: "Carmine Cannizzaro" "Shaheed Ross"
+date: "9/7/2017"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(fivethirtyeight)
+```
+```{r}
+head(nfl_fav_team)
+```
+
+1. A one variable graph of the favorite teams in the NFL
+```{r}
+ggplot(nfl_fav_team, aes(x=behavior)) + geom_bar(fill = "red") + labs(title = "Bargraph of Behavior", x = "Behavior")
+```
+In this graph, we created a bargraph that showed the varying levels of behavior of each NFL team. As you can tell, the most amount of teams at one level of behavior is 5.
+
+
+
+2. A two variable graph of the NFL
+```{r}
+ggplot(nfl_fav_team, aes(x=future_wins, y=bandwagon)) + geom_point() + labs(title = "Future Wins vs. Bandwagon Fans", x = "Future Wins", y = "Bandwagon Fans")
+```
+In this graph, we compared future wins to bandwagon fans to see if there is any relation between the two. As you can see from the graph, there is no relation what so ever. We were expecting to see a greater relation since we assumed most bandwagon fans are there because of possible future wins but we were wrong when looking at the graph. 
+
+
+
+3. A three variable graph of the NFL
+```{r}
+ggplot(nfl_fav_team, aes(x=team, y=coaching, z=players)) + geom_tile() + labs(title = "Team and their Coaching and Players", x = "Team", y= "Coaches", z = "Players")
+```
+In this graph, we have the coaches and players rating of each team. On the x-axis, we have the name of each team, on the y-axis, we have the coaches rating, and on the z-axis, which is the depth of the boxes, is representing the player ratings. 
+
+
+
+4. Article speaking on Player Behavior and Fan Relations
+```{r}
+ggplot(nfl_fav_team, aes(x=fan_relations, y=behavior)) + geom_point() + theme(legend.position = "left") + labs(title = "Scatterplot of Player Behavior and Fan Relations", x = "Fan Relations", y = "Player Behavior")
+```
+There is no graph throughout the article, so we created one that related to one of the aspects that the author talked about. The author mentioned in the article choosing a new team through multiple factors and one of these factors was how the way the players were poular to fans related to their domestic issues off the field. We chose to do a scatterplot to compare the data and as you can see the players behavior off the field does not really correlate at all to how they are liked by fans. 
+
+
+
+
+

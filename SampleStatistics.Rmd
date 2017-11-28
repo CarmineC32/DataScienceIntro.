@@ -1,0 +1,199 @@
+---
+title: "Sample statistics"
+author: "Kim Roth"
+date: "10/4/2017"
+output: html_document
+---
+# Carmine Cannizzaro +
+In this activity, we will make sure everyone knows the terms surronding sampling and sample statistics. Additionally we will learn how to compute them in R.
+
+Libaries for today
+```{r}
+library(mosaic)
+library(tidyverse)
+library(gapminder)
+```
+
+Some of these questions you may already know the answer to, if you do not you may look at other resources including your book and an introduction to statistics book of your choice (see https://www.openintro.org or http://moderndive.com/A-appendixA.html#basic-statistical-terms for a free option) 
+
+Give definitions beyond formulas for terms. You do not even need to include the formulas unless desired. Cite your sources if using someone's definition.
+
+
+Samples and population: statistics and parameters
+
+1. Define the following
+a. Sample- a small part that trys to show the whole set of data
+b. Population- all the people within a certin town, city, or country
+c. n- is the variable that represents the sample size
+d. Sample statistic- calculating the 98th percentile of a sample
+e. Population parameter.- a quantity of a certain population that is the variable
+
+
+Concepts
+2. Why sample? Why not look at the whole population? Sampling is used because it gives a data scientists the ability to work with a smaller set of cases therefore giving a clearer picture and having an easier time creating the graphic. Using the whole population would cause a sloppy graphic and probably very incomplete due to some peoples feelings towards filling out surveys truthfully.
+3. Why do we sample randomly or randomly assign conditions? Because it involves the mathematics of probability. 
+
+Practice
+4. For the dataset gapminder, go and find the R documentation in help or by google.
+a. How did they get the sample? They got the data from the population by country, and then the life expectancy and GDP per captia within these countries
+b. What are the cases? The cases are the life expentancy, country, and GDP per captia
+c. What's n? n is the country
+d. What are the variables? The variables are lif expectancy and GDP per captia
+c. What is a possible population related to this sample? The population of the United States
+
+Measures of center
+5. Define the following
+a. mean- the average of data in which you add up all variables and divide by the amount of variables that you have added up
+b. median- the middle value when having all the data lined up from least to greatest. 
+c. mode (which is rarely used in statistics, because it isn't a measure of center sometimes)-Most frequent result when collecting and ordering the data
+
+
+
+Concepts.
+6. Why is the mode not always at the center of the data? Because when using most datasets, there is not going to a variable or value that appears more frequently than another.
+
+7. Why have both mean and median? Are they always the same? Why or why not? Easier to calculate the median over the mean when dealing with large datasets. The median shows the middle number where is the mean shows the entire average. 
+Practice
+
+8. For the gapminder data set compute the following for a quantitative variable of your choice that is not year. All commands work like statistic( ~variable, data=dataset) 
+a. mean 
+b. median
+```{r}
+library(gapminder)
+mean(~ lifeExp, data = gapminder)
+median(~ lifeExp, data = gapminder)
+```
+9. Which is larger the median or the mean? Make a graph of the variable and write a sentence about why the larger one is larger.
+```{r}
+ggplot(gapminder, aes(x=lifeExp, y=year)) + geom_point() + geom_smooth() + labs(title = "Life Expentancy vs. Years", x = "Life Expectancy (Years)", y = "Years")
+
+```
+The median is larger because it is the middle value in a set of numbers where is the mean is the average of all the numbers. 
+
+Other measures of position: quantiles, quartiles, min and max
+10. Define the following
+a. Quantile/Percentile
+Dividing the observations in a sample in the same way.
+A given percentage of observations in a group of observations fall.
+b. First quartile
+ It is the middle number between the smallest number and the median of the data set.
+c. Thrid quartile
+ It is the middle value the median and the highest value of the data set
+d. Minimum
+ The smallest observation of elements
+e. Maximum
+The largest observation of elements
+
+Concepts
+11. What are the minimum, first quartile, median, third quartile, and maximum in terms of quantiles/percentiles? 
+This set of numbers is called the five number summary. 
+
+12. What is the difference between a quantile and a percentile? 
+Percentiles are indexed by percentages where is quantiles are indexed by fractions
+
+Practice
+13. Use favstats to compute the five number summary a quantiative variable of your choice (not year)
+```{r}
+library(gapminder)
+favstats(~pop, data = gapminder)
+```
+
+14. Find the 5th percentile and the 95th percentile for the data using qdata, which works like qdata(~variable, p=quantile, data=dataset)
+```{r}
+qdata(~pop, p=0.05, data=gapminder)
+qdata(~pop, p=0.95, data=gapminder)
+```
+
+
+
+Measures of spread: Range, Standard deviation, Intequarile Range
+15. Define the following
+a. Spread (statistical spread)
+Is the extent to which a distribution is stretched or squeezed.
+b. Range
+Subtracting the largest and smallest values.
+c. Standard deviation
+Is a measure that is used to quantify the amount of variation
+d. Interquartile range.
+ Measures of variability dividing a data set into quartiles.
+ 
+Concepts
+16. Why do we not use range as the usual measure of spread?
+We do not use range because it is affected by outliers.
+
+Practice
+17.Compute the range, interquartile range and standard deviation (sd in R) for your variable.
+```{r}
+life = gapminder$lifeExp
+max(life)-min(life)
+IQR(life)
+sd(life)
+```
+
+Outliers: Detection methods
+
+There are two common simple statistical methods. Note that particular data may have values dictated by the variable that are unusual outside of statistcs (ex. unreasonable blood pressure values) Also there are more complicated statstical methods for some things.
+
+The two methods are data is more than two standard deviations from the mean or more than 1.5 interquatile ranges from the nearest quartile.
+
+
+For your variable use either the minimum or the maximum of the data.
+18. Is your min or max an outlier by being more than two standard deviations from the mean. Note that standard deviations from the mean are calculuated by doing a z-score (data value-mean)/sd 
+-The minimum is an outlier
+```{r}
+min(life)
+mean(life)
+```
+
+19. Is your min or max and outlier by being more than than 1.5  interquatile ranges from the nearest quartile. The easiest way to do this in r is to make a boxplot. Boxplots mark their outliers using this rule by default.
+```{r}
+ggplot(gapminder, aes(x=year, y=lifeExp)) + geom_boxplot() + labs(title = "Boxplot", x = "Year", y = "Age")
+
+```
+
+
+Linear models. Best fit lines and their friends
+
+20. Define the following
+a. Statistical model 
+It is a mathematical model that can make predictions
+b. Linear
+Representing a set of data with a line
+c. Least squares regression line (the most common type of best fit line)
+A line that has the smallest values for the sum of the squares
+d. predictor
+A variable that is changed to observe the effect it has
+e. response
+It is the variable that a model is trying to predict
+f. confounding variables
+Uncontrollable variables
+g. correlation
+A number that describes the relationship between two variables
+
+Concepts
+21. Why do we make models? What is the goal?
+We make models to represent a set of data and the goal of that model is to predict what will happen in the future.
+
+Practice
+22. Pick two of the quantiative variables. Make a scatterplot with a line on it (as we did when learning ggplot, it is the best fit line)
+```{r}
+ggplot(gapminder, aes(x=lifeExp, y=year)) + geom_point() + geom_smooth() + labs(title = "Life Expentancy vs. Years", x = "Life Expectancy (Age)", y = "Years")
+
+```
+
+23. Now look at the line of best fit. The command for making a best fit line is lm, standing for linear model
+lm(response~predictor, data=dataset).
+```{r}
+lm(lifeExp~year, data=gapminder)
+
+```
+
+24. Write the equation for the line here. How does it match your scatterplot?
+y=.3259x - 585.6522
+It doesnt relate that closely due to the ups and downs of human life during wars and plagues.
+
+25. (OPTIONAL) Using the gampminder data make the best linear model for gdp that you can using multiple variables. How are you telling it is the best?
+```{r}
+
+```
+
